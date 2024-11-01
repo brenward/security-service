@@ -21,7 +21,7 @@ public class Login {
     @Id
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
-    private UUID clientId;
+    private UUID userId;
 
     @NonNull
     @NotBlank
