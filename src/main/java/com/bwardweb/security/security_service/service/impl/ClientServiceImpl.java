@@ -27,4 +27,11 @@ public class ClientServiceImpl implements ClientService {
                 && StringUtils.isNotBlank(clientOptional.get().getRedirectUrl())
                 && (StringUtils.isNotBlank(codeChallenge) || StringUtils.isNotBlank(clientOptional.get().getClientSecret()));
     }
+
+    @Override
+    public String getClientRedirectUrl(UUID clientId) {
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
+
+        return clientOptional.map(Client::getRedirectUrl).orElse(null);
+    }
 }
