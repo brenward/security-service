@@ -20,10 +20,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean isClientValid(String clientId) {
+    public boolean isClientValid(final String clientId, final String codeChallenge) {
         Optional<Client> clientOptional = clientRepository.findById(UUID.fromString(clientId));
 
         return clientOptional.isPresent()
-                && StringUtils.isNotBlank(clientOptional.get().getRedirectUrl());
+                && StringUtils.isNotBlank(clientOptional.get().getRedirectUrl())
+                && (StringUtils.isNotBlank(codeChallenge) || StringUtils.isNotBlank(clientOptional.get().getClientSecret()));
     }
 }

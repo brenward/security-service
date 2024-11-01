@@ -24,7 +24,7 @@ public class LoginController {
 
         log.info("authorize request for " + clientId);
 
-        if(!clientService.isClientValid(clientId)){
+        if(!clientService.isClientValid(clientId, codeChallenge)){
             return "error";
         }
 
@@ -39,6 +39,10 @@ public class LoginController {
     public void login(Model model, @RequestParam("username") String username, @RequestParam("password") String password){
 
         System.out.println("login");
+
+        String codeChallenge = (String) model.getAttribute("codeChallenge");
+
+        log.info(codeChallenge);
 
         //Credentials
 
