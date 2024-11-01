@@ -27,8 +27,6 @@ public class Client {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID clientId;
 
-    @NonNull
-    @NotBlank
     @Size(max = 50)
     @Column(length = 50)
     private String clientSecret;

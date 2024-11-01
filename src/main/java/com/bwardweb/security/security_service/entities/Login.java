@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -34,4 +35,10 @@ public class Login {
     @NonNull
     @NotBlank
     private LocalDateTime lastLogin;
+
+    @Size(max = 50)
+    @Column(length = 50)
+    private String codeChallenge;
+
+    private LocalDateTime codeChallengeCreated;
 }

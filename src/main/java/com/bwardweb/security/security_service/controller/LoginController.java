@@ -1,33 +1,42 @@
 package com.bwardweb.security.security_service.controller;
 
+import com.bwardweb.security.security_service.service.ClientService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
+@SessionAttributes("codeChallenge")
 public class LoginController {
+
+    private final ClientService clientService;
+
+    public LoginController(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     @GetMapping("/authorize")
     public String authorise(@RequestParam(name="client_id") String clientId, @RequestParam(name="response_type") String responseType,
-                            @RequestParam(name="code_challenge", required=false) String codeChallenge){
+                            @RequestParam(name="code_challenge", required=false) String codeChallenge, Model model){
 
-        System.out.println("authorize");
+        log.info("authorize request for " + clientId);
 
-        //response type (response_type=code)
-        //client id (client_id=)
-        //redirect uri (redirect_uri=)
-        //code challenge (code_challenge=)
+        if(!clientService.isClientValid(clientId)){
+            return "error";
+        }
 
-        //TODO: validate client id and redirect uri (if client secret present)
-        //TODO: store code challenge in session
-        //TODO: forward to login
+        if(StringUtils.isNotBlank(codeChallenge)){
+            model.addAttribute("codeChallenge", codeChallenge);
+        }
 
         return "login";
     }
 
     @PostMapping("/login")
-    public void login(){
+    public void login(Model model, @RequestParam("username") String username, @RequestParam("password") String password){
 
         System.out.println("login");
 
